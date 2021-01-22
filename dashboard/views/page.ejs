@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%= data.title%></title>
+	<meta charset="utf-8">
+</head>
+
+<body>
+	<h1><%= data.title%></h1>
+	<p><%= data.description%></p>
+	<p id="countDown">There are 0s left before the page is deleted</p>
+
+	<script type="text/javascript">
+		let end = "<%= data.end%>";
+		const enDate = new Date(parseInt(end));
+		let interval = setInterval(() => {
+
+		  let now = new Date().getTime();
+
+		  let diff = parseInt(end) - now;
+
+		  let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+		  let hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+		  let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+		  let seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+		  countDown.innerHTML = `There are ${days ? days + "d " : ""}${hours ? hours + "h " : ""}${minutes ? minutes +"m " : ""} ${seconds ? seconds + "s " : ""}left before the page is deleted. It will be deleted on ${enDate.getDate() < 10 ? "0"+enDate.getDate() : enDate.getDate()}/${enDate.getMonth()+1 < 10 ? "0"+(enDate.getMonth()+1) : (enDate.getMonth() +1)}/${enDate.getFullYear()}`
+
+		  if (diff < 0) {
+		    clearInterval(interval);
+		    window.location.href = "/";
+		  }
+		}, 1000);
+	</script>
+</body>
+</html>
