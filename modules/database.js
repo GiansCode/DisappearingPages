@@ -6,19 +6,7 @@ module.exports = class DatabaseHandler {
         return new Promise((resolve, reject) => {
             method ? method : "get";
             sql[method](string).then(row => {
-                if(!row) resolve("no-data");
-                resolve(row);
-            }).catch(err => {
-            	resolve("no-data");
-            })
-        });
-    }
-
-    piwa(string, array, method){
-        return new Promise((resolve, reject) => {
-            method ? method : "get";
-            sql[method](string, array).then(row => {
-                if(!row) resolve("no-data");
+                if (!row) resolve("no-data");
                 resolve(row);
             }).catch(err => {
                 resolve("no-data");
@@ -26,9 +14,21 @@ module.exports = class DatabaseHandler {
         });
     }
 
-    async checkWebsite(db){
-    	const d = new Date().getTime();
-    	db(`DELETE FROM db WHERE date <= "${d}"`, "run");
+    piwa(string, array, method) {
+        return new Promise((resolve, reject) => {
+            method ? method : "get";
+            sql[method](string, array).then(row => {
+                if (!row) resolve("no-data");
+                resolve(row);
+            }).catch(err => {
+                resolve("no-data");
+            })
+        });
+    }
+
+    async checkWebsite(db) {
+        const d = new Date().getTime();
+        db(`DELETE FROM db WHERE date <= "${d}"`, "run");
     }
 
 }

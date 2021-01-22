@@ -1,27 +1,23 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Create your own page</title>
-	<meta charset="utf-8">
-</head>
-
-<body>
-
-	<form id="createPage">
-		<label for="surl">The short url for your page :</label><br>
-	  <input type="text" id="surl" name="surl"><br>
-	  <label for="title">The title of your page :</label><br>
-	  <input type="text" id="title" name="title" required><br><br>
-	  <label for="description">The description of your page :</label><br>
-	  <input type="text" id="description" name="description" required><br><br>
-	  <label for="date">Date of deletion of your page :</label><br>
-	  <input type="date" id="date" name="date" required><br><br>
-	</form>
-
-	<span id="errorText"></span><br>
-
-	<a onclick="sendInformations()" href="#">Create my webpage</a>
-
-	<script type="text/javascript" src="js/functions.js"></script>
-</body>
+	<head>
+		<title>Create your own page</title>
+		<meta charset="utf-8">
+		<script src="https://www.google.com/recaptcha/api.js?render=6LfMvzcaAAAAAKG6ECuJPlETz3iY4Bbjoo5N9YJs"></script>
+	</head>
+	<body>
+		<form id="createPage">
+			<label for="surl">The short url for your page :</label><br>
+			<input type="text" id="surl" name="surl"><br>
+			<label for="title">The title of your page :</label><br>
+			<input type="text" id="title" name="title" required><br><br>
+			<label for="description">The description of your page :</label><br>
+			<input type="text" id="description" name="description" required><br><br>
+			<label for="date">Date of deletion of your page :</label><br>
+			<input type="date" id="date" name="date" required><br><br>
+		</form>
+		<span id="errorText"></span><br>
+		<a onclick="sendInformations()" href="#">Create my webpage</a>
+		<script type="text/javascript" src="js/functions.js"></script>
+	</body>
 </html>
