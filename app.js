@@ -157,13 +157,13 @@ let Website = class Website {
                 if (body.shortUrl) {
                     // So, if the user has give a short URL
                     const shortURL = body.shortUrl.replace(/[^a-zA-Z0-9]/g, "");
-                    let proto = `SELECT * FROM db WHERE shorturl="${shortURL}"`;
-                    const response = await this.database.db(proto, "get");
+                    let proto = `SELECT * FROM db WHERE shorturl=?`;
+                    const response = await this.database.db(proto, [shortURL],"get");
                     if (!response || response == "no-data") {
 
                         //generate webpage URL
                         const code = await this.generateCodeURL(10);
-                        await this.database.piwa("INSERT INTO db (pageid, pageurl, shorturl, date, title, description) VALUES (?, ?, ?, ?, ?, ?)", [code, code, shortURL, timed, body.title, body.description], "run");
+                        await this.database.db("INSERT INTO db (pageid, pageurl, shorturl, date, title, description) VALUES (?, ?, ?, ?, ?, ?)", [code, code, shortURL, timed, body.title, body.description], "run");
                         return this.stopRequest(res, {
                             "code": 200,
                             "info": "The page was created succefully",
@@ -178,7 +178,7 @@ let Website = class Website {
                     }
                 } else {
                     const code = await this.generateCodeURL(10);
-                    await this.database.piwa("INSERT INTO db (pageid, pageurl, date, title, description) VALUES (?, ?, ?, ?, ?)", [code, code, timed, body.title, body.description], "run");
+                    await this.database.db("INSERT INTO db (pageid, pageurl, date, title, description) VALUES (?, ?, ?, ?, ?)", [code, code, timed, body.title, body.description], "run");
                     return this.stopRequest(res, {
                         "code": 200,
                         "info": "The page was created succefully",
@@ -213,7 +213,7 @@ let Website = class Website {
     }
 
     async verifyURL(code) {
-        const res = await this.database.db("SELECT * FROM db WHERE pageid=" + code, "get");
+        const res = await this.database.db("SELECT * FROM db WHERE pageid=?", [code], "get");
         if (!res || res == "no-data") {
             return code;
         } else {
