@@ -52,22 +52,21 @@ let Website = class Website {
 
         app.get("/", async(req, res) => {
             return renderTemplate(res, req, "index.ejs")
-                //renderTemplate(res, req, "index.ejs");
         })
         app.get("/404", async(req, res) => {
-            renderTemplate(res, req, "not_found.ejs");
+            return renderTemplate(res, req, "not_found.ejs");
         });
         app.get("/:pageid", async(req, res) => {
             const shortURL = req.params.pageid.replace(/[^a-zA-Z0-9]/g, "");
-            let proto = `SELECT * FROM db WHERE shorturl="${shortURL}" OR pageid="${shortURL}"`;
-            const response = await this.database.db(proto, "get");
-            if (!response || response == "no-data") res.redirect("/404");
+            let proto = `SELECT * FROM db WHERE shorturl=? OR pageid=?`;
+            const response = await this.database.db(proto, [shortURL],"get");
+            if (!response || response == "no-data") return res.redirect("/404");
             const data = {
                 title: response.title,
                 description: response.description,
                 end: response.date
             }
-            renderTemplate(res, req, "page.ejs", {
+            return renderTemplate(res, req, "page.ejs", {
                 data
             });
         });
@@ -145,11 +144,11 @@ let Website = class Website {
                     "code": 400,
                     "info": `The date entered is invalid`
                 });
-                const now = new Date();
+                const now = Date.now();
 
                 const timed = d.getTime();
 
-                if (timed < now.getTime() + 7200000) return this.stopRequest(res, {
+                if (timed < now + 7200000) return this.stopRequest(res, {
                     "code": 400,
                     "info": `The date entered is invalid`
                 });
