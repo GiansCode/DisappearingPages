@@ -1,9 +1,7 @@
-const moment = require("moment"),
-    express = require("express"),
+const express = require("express"),
     path = require("path"),
     bodyParser = require('body-parser'),
     DatabaseHandler = require("./modules/database"),
-    cors = require('cors'),
     config = require("./config"),
     fetch = require("node-fetch"),
     app = express();
@@ -29,12 +27,10 @@ let Website = class Website {
             .use(bodyParser.urlencoded({
                 extended: false
             }))
-            .use(cors())
             .use(bodyParser.json())
             .disable('x-powered-by')
             .use(async function(req, res, next) {
                 res.header("Access-Control-Allow-Origin", baseURL);
-                res.header("Access-Control-Allow-Headers", "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization");
                 next();
             });
 
